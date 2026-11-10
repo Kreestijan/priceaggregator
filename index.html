@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Radar de oferte eMAG</title>
+<title>Radar de prețuri xPrice</title>
 <style>
 :root{color-scheme:dark;font:16px system-ui;background:#111827;color:#f1f5f9}
 body{max-width:980px;margin:auto;padding:2rem 1rem}h1{font-size:clamp(2rem,6vw,3.5rem);margin-bottom:.4rem}
@@ -14,83 +14,82 @@ article{padding:1.25rem;background:#1e293b;border:1px solid #475569;border-radiu
 </style>
 </head>
 <body>
-<header><h1>Radar de oferte eMAG</h1><p>Compară prețurile cu minimele observate în ultimele 6 sau 12 luni.</p></header>
-<p id="source" role="status">Se încarcă ofertele…</p>
+<header>
+  <h1>Radar de prețuri xPrice</h1>
+  <p>Prețuri observate astăzi, strict sub minimul anterior din perioada aleasă.</p>
+</header>
+<p id="source" role="status">Se încarcă rezultatele xPrice…</p>
 <form class="filters">
-<label>Caută produs <input id="query" type="search" placeholder="Telefon, aspirator…"></label>
-<label>Categorie <select id="category"><option value="">Toate</option></select></label>
-<label>Perioadă <select id="period"><option value="6">6 luni</option><option value="12">12 luni</option></select></label>
-<label>Tip de ofertă <select id="rule"><option value="low">La minimul perioadei</option><option value="discount">Cel puțin 15% sub mediană</option><option value="all" selected>Toate ofertele</option></select></label>
+  <label>Caută produs <input id="query" type="search"></label>
+  <label>Perioadă <select id="period">
+    <option value="6">6 luni</option><option value="12">12 luni</option><option value="24">24 de luni</option>
+  </select></label>
+  <label>Reducere față de minimul anterior <select id="threshold">
+    <option value="0">Orice record nou</option><option value="15">Cel puțin 15%</option>
+  </select></label>
 </form>
-<p id="count" role="status"></p><section id="offers" aria-label="Produse"></section>
+<p id="count" role="status"></p>
+<section id="offers" aria-label="Recorduri de preț"></section>
 <script>
-const demo = [
-  {name:'Telefon exemplu', category:'Telefoane', price:1499, history:{6:{min:1499,median:1799},12:{min:1399,median:1899}}},
-  {name:'Aspirator exemplu', category:'Electrocasnice', price:429, history:{6:{min:449,median:500},12:{min:449,median:529}}},
-  {name:'Monitor exemplu', category:'Monitoare', price:699, history:{6:{min:649,median:899},12:{min:599,median:949}}}
-];
 const el = id => document.getElementById(id);
-const money = new Intl.NumberFormat('ro-RO', {style:'currency',currency:'RON'});
+const money = new Intl.NumberFormat('ro-RO', {style:'currency', currency:'RON'});
+const percent = new Intl.NumberFormat('ro-RO', {maximumFractionDigits:2});
+const dateParts = new Intl.DateTimeFormat('ro-RO', {
+  timeZone:'Europe/Bucharest', year:'numeric', month:'2-digit', day:'2-digit'
+}).formatToParts();
+const part = type => dateParts.find(item => item.type === type).value;
+const today = [part('year'), part('month'), part('day')].join('-');
 const add = (parent, tag, value) => {
   const node = document.createElement(tag);
   node.textContent = value;
   parent.append(node);
   return node;
 };
-const validPrice = value => Number.isFinite(value) && value > 0;
-const fmt = value => validPrice(value) ? money.format(value) : '—';
-const discount = (price, median) => validPrice(median) ? (median - price) / median : null;
-let products = [];
-function render() {
-  const query = el('query').value.trim().toLocaleLowerCase('ro');
-  const category = el('category').value;
+
+function showRecords(rows) {
   const period = el('period').value;
-  const rule = el('rule').value;
-  const results = products.filter(product => {
-    const reference = product.history?.[period];
-    if (category && product.category !== category) return false;
-    if (!product.name.toLocaleLowerCase('ro').includes(query)) return false;
-    if (rule === 'low') return validPrice(reference?.min) && product.price <= reference.min;
-    if (rule === 'discount') return discount(product.price, reference?.median) >= 0.15;
-    return true;
-  }).sort((a,b) => (discount(b.price,b.history?.[period]?.median) ?? -Infinity)
-    - (discount(a.price,a.history?.[period]?.median) ?? -Infinity) || a.price - b.price);
+  const threshold = Number(el('threshold').value);
+  const query = el('query').value.trim().toLocaleLowerCase('ro');
+  const matches = rows
+    .filter(row => row.name.toLocaleLowerCase('ro').includes(query))
+    .map(row => ({row, record:row.records?.[period]}))
+    .filter(({row, record}) => Number.isFinite(record?.previousMin) && row.price < record.previousMin
+      && Number.isFinite(record.percentBelow) && record.percentBelow >= threshold)
+    .sort((a, b) => b.record.percentBelow - a.record.percentBelow);
   const list = el('offers');
   list.replaceChildren();
-  el('count').textContent = results.length ? results.length + ' produse găsite' : 'Niciun produs pentru filtrele selectate.';
-  for (const product of results) {
-    const reference = product.history?.[period];
-    const card = add(list,'article','');
-    add(card,'small',product.category);
-    add(card,'h2',product.name);
-    add(card,'strong',fmt(product.price));
-    add(card,'p','Minim pe ' + period + ' luni: ' + fmt(reference?.min));
-    const savings = discount(product.price, reference?.median);
-    if (savings > 0) add(card,'p',new Intl.NumberFormat('ro-RO',{style:'percent',maximumFractionDigits:1}).format(savings) + ' sub mediană');
-    if (product.seller) add(card,'p','Vânzător: ' + product.seller);
-    if (product.checkedAt) add(card,'p','Verificat: ' + new Date(product.checkedAt).toLocaleString('ro-RO',{timeZone:'Europe/Bucharest'}));
-    if (/^https:\/\/www\.emag\.ro\//.test(product.url ?? '')) add(card,'a','Vezi pe eMAG').href = product.url;
+  el('count').textContent = matches.length ? matches.length + ' rezultate' :
+    'Niciun record din eșantion nu corespunde filtrelor.';
+  for (const {row, record} of matches) {
+    const card = add(list, 'article', '');
+    add(card, 'h2', row.name);
+    add(card, 'strong', money.format(row.price));
+    add(card, 'p', 'Minim anterior: ' + money.format(record.previousMin));
+    add(card, 'p', percent.format(record.percentBelow) + '% sub minimul anterior');
+    add(card, 'p', 'Observat la ' + row.observedDate + ' · ' + record.observations + ' prețuri anterioare');
+    add(card, 'a', 'Vezi istoricul pe xPrice').href = row.url;
   }
 }
+
 async function init() {
   try {
-    const response = await fetch('./offers.json', {cache:'no-cache'});
-    if (!response.ok) throw new Error('Feed indisponibil');
-    const rows = await response.json();
-    if (!Array.isArray(rows)) throw new Error('Feed invalid');
-    products = rows.filter(row => row?.inStock === true && typeof row.name === 'string'
-      && typeof row.category === 'string' && validPrice(row.price) && Number.isFinite(Date.parse(row.checkedAt)));
-    el('source').textContent = 'Prețuri și stoc observate pe eMAG la data afișată. Filtrele istorice includ doar produse cu date pentru perioada aleasă.';
+    const response = await fetch('./xprice-records.json', {cache:'no-cache'});
+    if (!response.ok) throw new Error('Date indisponibile');
+    const snapshot = await response.json();
+    if (!Array.isArray(snapshot.records) || typeof snapshot.date !== 'string') throw new Error('Date invalide');
+    const rows = snapshot.records.filter(row => row?.observedDate === today &&
+      typeof row.name === 'string' && Number.isFinite(row.price) && row.price > 0 &&
+      /^https:\/\/xprice\.ro\/istoric-pret\//.test(row.url));
+    el('source').textContent = snapshot.date === today
+      ? 'Scanare pilot xPrice · ' + snapshot.scanned + ' pagini verificate · ' + snapshot.date
+      : 'Ultima scanare: ' + snapshot.date + '. Încă nu avem date pentru azi.';
+    const form = document.querySelector('form');
+    form.addEventListener('submit', event => event.preventDefault());
+    form.addEventListener('input', () => showRecords(rows));
+    showRecords(rows);
   } catch {
-    products = demo;
-    el('source').textContent = 'Mod demonstrativ. Produsele și prețurile de mai jos sunt fictive.';
+    el('source').textContent = 'Rezultatele xPrice nu sunt disponibile momentan.';
   }
-  for (const category of [...new Set(products.map(product => product.category))].sort()) {
-    el('category').add(new Option(category, category));
-  }
-  document.querySelector('form').addEventListener('submit', event => event.preventDefault());
-  document.querySelector('form').addEventListener('input', render);
-  render();
 }
 init();
 </script>
