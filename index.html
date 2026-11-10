@@ -16,7 +16,7 @@ article{padding:1.25rem;background:#1e293b;border:1px solid #475569;border-radiu
 <body>
 <header>
   <h1>Radar de prețuri xPrice</h1>
-  <p>Prețuri observate astăzi, strict sub minimul anterior din perioada aleasă.</p>
+  <p>Produse ordonate după diferența procentuală față de minimul anterior din perioada aleasă.</p>
 </header>
 <p id="source" role="status">Se încarcă rezultatele xPrice…</p>
 <form class="filters">
@@ -25,11 +25,11 @@ article{padding:1.25rem;background:#1e293b;border:1px solid #475569;border-radiu
     <option value="6">6 luni</option><option value="12">12 luni</option><option value="24">24 de luni</option>
   </select></label>
   <label>Reducere față de minimul anterior <select id="threshold">
-    <option value="0">Orice record nou</option><option value="15">Cel puțin 15%</option>
+    <option value="all">Toate produsele</option><option value="0">Doar recorduri noi</option><option value="15">Cel puțin 15%</option>
   </select></label>
 </form>
 <p id="count" role="status"></p>
-<section id="offers" aria-label="Recorduri de preț"></section>
+<section id="offers" aria-label="Produse ordonate după preț"></section>
 <script>
 const el = id => document.getElementById(id);
 const money = new Intl.NumberFormat('ro-RO', {style:'currency', currency:'RON'});
@@ -48,25 +48,31 @@ const add = (parent, tag, value) => {
 
 function showRecords(rows) {
   const period = el('period').value;
-  const threshold = Number(el('threshold').value);
+  const threshold = el('threshold').value;
   const query = el('query').value.trim().toLocaleLowerCase('ro');
   const matches = rows
     .filter(row => row.name.toLocaleLowerCase('ro').includes(query))
     .map(row => ({row, record:row.records?.[period]}))
-    .filter(({row, record}) => Number.isFinite(record?.previousMin) && row.price < record.previousMin
-      && Number.isFinite(record.percentBelow) && record.percentBelow >= threshold)
-    .sort((a, b) => b.record.percentBelow - a.record.percentBelow);
+    .filter(({record}) => threshold === 'all' ||
+      (record?.percentBelow > 0 && record.percentBelow >= Number(threshold)))
+    .sort((a, b) => (b.record?.percentBelow ?? -Infinity) - (a.record?.percentBelow ?? -Infinity));
   const list = el('offers');
   list.replaceChildren();
   el('count').textContent = matches.length ? matches.length + ' rezultate' :
-    'Niciun record din eșantion nu corespunde filtrelor.';
+    'Niciun produs din eșantion nu corespunde filtrelor.';
   for (const {row, record} of matches) {
     const card = add(list, 'article', '');
     add(card, 'h2', row.name);
     add(card, 'strong', money.format(row.price));
-    add(card, 'p', 'Minim anterior: ' + money.format(record.previousMin));
-    add(card, 'p', percent.format(record.percentBelow) + '% sub minimul anterior');
-    add(card, 'p', 'Observat la ' + row.observedDate + ' · ' + record.observations + ' prețuri anterioare');
+    if (record) {
+      add(card, 'p', 'Minim anterior: ' + money.format(record.previousMin));
+      const gap = record.percentBelow;
+      add(card, 'p', gap === 0 ? 'Egal cu minimul anterior' :
+        percent.format(Math.abs(gap)) + '% ' + (gap > 0 ? 'sub' : 'peste') + ' minimul anterior');
+    } else {
+      add(card, 'p', 'Istoric insuficient pentru perioada selectată');
+    }
+    add(card, 'p', 'Ultima observație xPrice: ' + row.observedDate);
     add(card, 'a', 'Vezi istoricul pe xPrice').href = row.url;
   }
 }
@@ -80,7 +86,7 @@ async function init() {
     if (!response.ok) throw new Error('Date indisponibile');
     const snapshot = await response.json();
     if (!Array.isArray(snapshot.records) || typeof snapshot.date !== 'string') throw new Error('Date invalide');
-    const rows = snapshot.records.filter(row => row?.observedDate === today &&
+    const rows = snapshot.records.filter(row => typeof row?.observedDate === 'string' &&
       typeof row.name === 'string' && Number.isFinite(row.price) && row.price > 0 &&
       /^https:\/\/xprice\.ro\/istoric-pret\//.test(row.url));
     el('source').textContent = snapshot.date === today
