@@ -25,7 +25,7 @@ article{padding:1.25rem;background:#1e293b;border:1px solid #475569;border-radiu
     <option value="6">6 luni</option><option value="12">12 luni</option><option value="24">24 de luni</option>
   </select></label>
   <label>Reducere față de minimul anterior <select id="threshold">
-    <option value="all">Toate produsele</option><option value="0">Doar recorduri noi</option><option value="15">Cel puțin 15%</option>
+    <option value="all">Toate produsele</option><option value="0">Doar recorduri de azi</option><option value="15">Azi, cel puțin 15%</option>
   </select></label>
 </form>
 <p id="count" role="status"></p>
@@ -53,8 +53,8 @@ function showRecords(rows) {
   const matches = rows
     .filter(row => row.name.toLocaleLowerCase('ro').includes(query))
     .map(row => ({row, record:row.records?.[period]}))
-    .filter(({record}) => threshold === 'all' ||
-      (record?.percentBelow > 0 && record.percentBelow >= Number(threshold)))
+    .filter(({row, record}) => threshold === 'all' ||
+      (row.observedDate === today && record?.percentBelow > 0 && record.percentBelow >= Number(threshold)))
     .sort((a, b) => (b.record?.percentBelow ?? -Infinity) - (a.record?.percentBelow ?? -Infinity));
   const list = el('offers');
   list.replaceChildren();
@@ -79,10 +79,7 @@ function showRecords(rows) {
 
 async function init() {
   try {
-    let response = await fetch('./xprice-records.json', {cache:'no-cache'});
-    if (response.status === 404) {
-      response = await fetch('https://raw.githubusercontent.com/Kreestijan/priceaggregator/main/xprice-records.json', {cache:'no-cache'});
-    }
+    const response = await fetch('https://raw.githubusercontent.com/Kreestijan/priceaggregator/main/xprice-records.json', {cache:'no-cache'});
     if (!response.ok) throw new Error('Date indisponibile');
     const snapshot = await response.json();
     if (!Array.isArray(snapshot.records) || typeof snapshot.date !== 'string') throw new Error('Date invalide');
