@@ -21,14 +21,12 @@ def fetch(url, fragment=False):
 
 
 def record_prices(points, today):
-    if today not in points or max(points) != today:
-        return {}
     current = points[today]
     records = {}
     for window, days in WINDOWS.items():
         cutoff = today - timedelta(days=days)
         previous = [price for date, price in points.items() if cutoff <= date < today]
-        if previous and current < min(previous):
+        if previous:
             records[window] = {
                 "previousMin": min(previous) / 100,
                 "percentBelow": (min(previous) - current) * 100 / min(previous),
@@ -37,7 +35,7 @@ def record_prices(points, today):
     return records
 
 
-def scan(url, today):
+def scan(url):
     parsed = urlsplit(url)
     if parsed.scheme != "https" or parsed.netloc != "xprice.ro" or not parsed.path.startswith("/istoric-pret/"):
         raise ValueError("Expected a public xprice.ro product URL")
@@ -63,16 +61,15 @@ def scan(url, today):
     if not points:
         raise ValueError("No dated chart points found")
     print(f"{parsed.path}: {len(points)} dates; latest {max(points)}")
-    records = record_prices(points, today)
-    if records:
-        return {
-            "name": unescape(re.sub(r"<[^>]+>", "", title[1])).strip(),
-            "price": points[today] / 100,
-            "observedDate": today.isoformat(),
-            "url": url,
-            "records": records,
-        }
-    return None
+    latest = max(points)
+    records = record_prices(points, latest)
+    return {
+        "name": unescape(re.sub(r"<[^>]+>", "", title[1])).strip(),
+        "price": points[latest] / 100,
+        "observedDate": latest.isoformat(),
+        "url": url,
+        "records": records,
+    }
 
 
 def main():
@@ -82,12 +79,12 @@ def main():
     args = parser.parse_args()
     today = datetime.now(ZoneInfo("Europe/Bucharest")).date()
     urls = list(dict.fromkeys(args.urls))
-    results = [row for url in urls if (row := scan(url, today))]
+    results = [row for url in urls if (row := scan(url))]
     snapshot = {"date": today.isoformat(), "scanned": len(urls), "records": results}
     temporary = args.output.with_suffix(args.output.suffix + ".tmp")
     temporary.write_text(json.dumps(snapshot, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     temporary.replace(args.output)
-    print(f"{len(results)} strict records")
+    print(f"{len(results)} products")
 
 
 if __name__ == "__main__":
