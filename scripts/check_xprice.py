@@ -81,8 +81,12 @@ def main():
     parser.add_argument("--output", type=Path, default=Path("xprice-records.json"))
     args = parser.parse_args()
     today = datetime.now(ZoneInfo("Europe/Bucharest")).date()
-    results = [row for url in dict.fromkeys(args.urls) if (row := scan(url, today))]
-    args.output.write_text(json.dumps(results, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    urls = list(dict.fromkeys(args.urls))
+    results = [row for url in urls if (row := scan(url, today))]
+    snapshot = {"date": today.isoformat(), "scanned": len(urls), "records": results}
+    temporary = args.output.with_suffix(args.output.suffix + ".tmp")
+    temporary.write_text(json.dumps(snapshot, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    temporary.replace(args.output)
     print(f"{len(results)} strict records")
 
 
