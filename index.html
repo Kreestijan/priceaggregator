@@ -20,7 +20,7 @@ article{padding:1.25rem;background:#1e293b;border:1px solid #475569;border-radiu
 <label>Caută produs <input id="query" type="search" placeholder="Telefon, aspirator…"></label>
 <label>Categorie <select id="category"><option value="">Toate</option></select></label>
 <label>Perioadă <select id="period"><option value="6">6 luni</option><option value="12">12 luni</option></select></label>
-<label>Tip de ofertă <select id="rule"><option value="low">La minimul perioadei</option><option value="discount">Cel puțin 15% sub mediană</option><option value="all">Toate ofertele</option></select></label>
+<label>Tip de ofertă <select id="rule"><option value="low">La minimul perioadei</option><option value="discount">Cel puțin 15% sub mediană</option><option value="all" selected>Toate ofertele</option></select></label>
 </form>
 <p id="count" role="status"></p><section id="offers" aria-label="Produse"></section>
 <script>
@@ -80,7 +80,7 @@ async function init() {
     if (!Array.isArray(rows)) throw new Error('Feed invalid');
     products = rows.filter(row => row?.inStock === true && typeof row.name === 'string'
       && typeof row.category === 'string' && validPrice(row.price) && Number.isFinite(Date.parse(row.checkedAt)));
-    el('source').textContent = 'Oferte din ultima verificare. Consultă data afișată pe fiecare produs.';
+    el('source').textContent = 'Prețuri și stoc observate pe eMAG la data afișată. Filtrele istorice includ doar produse cu date pentru perioada aleasă.';
   } catch {
     products = demo;
     el('source').textContent = 'Mod demonstrativ. Produsele și prețurile de mai jos sunt fictive.';
