@@ -6,7 +6,7 @@ from pathlib import Path
 import json
 import re
 from urllib.parse import urljoin, urlsplit
-from urllib.request import Request, urlopen
+import subprocess
 from zoneinfo import ZoneInfo
 
 ORIGIN = "https://xprice.ro"
@@ -14,9 +14,10 @@ WINDOWS = {"6": 182, "12": 365, "24": 730}
 
 
 def fetch(url, fragment=False):
-    headers = {"HX-Request": "true"} if fragment else {}
-    with urlopen(Request(url, headers=headers), timeout=20) as response:
-        return response.read().decode("utf-8")
+    headers = ["-H", "HX-Request: true"] if fragment else []
+    return subprocess.check_output(
+        ["curl", "-fsSL", "--max-time", "20", *headers, "--", url], text=True
+    )
 
 
 def record_prices(points, today):
