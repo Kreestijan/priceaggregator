@@ -1,5 +1,374 @@
 {
   "date": "2026-11-10",
-  "scanned": 5,
-  "records": []
+  "scanned": 16,
+  "records": [
+    {
+      "name": "Umidificator din ceramică Cat Family - Maximex",
+      "price": 102,
+      "observedDate": "2026-11-08",
+      "url": "https://xprice.ro/istoric-pret/umidificator-din-ceramica-cat-family-maximex/pd/38cfb8646bc3808742b2ab4834407510/?hist=730",
+      "records": {
+        "6": {
+          "previousMin": 102,
+          "percentBelow": 0,
+          "observations": 34
+        },
+        "12": {
+          "previousMin": 88.1,
+          "percentBelow": -15.777525539160045,
+          "observations": 65
+        },
+        "24": {
+          "previousMin": 88.1,
+          "percentBelow": -15.777525539160045,
+          "observations": 106
+        }
+      }
+    },
+    {
+      "name": "Lenjerie cu 6 aparatori pufoase si fundite Bicolore Verde Menta 120x60 cm",
+      "price": 359,
+      "observedDate": "2026-11-09",
+      "url": "https://xprice.ro/istoric-pret/lenjerie-cu-6-aparatori-pufoase-si-fundite-bicolore-verde-menta-120x60-cm/pd/418e68fb6fb0bfcf5b6c890d675e864e/?hist=730",
+      "records": {
+        "6": {
+          "previousMin": 359,
+          "percentBelow": 0,
+          "observations": 11
+        },
+        "12": {
+          "previousMin": 359,
+          "percentBelow": 0,
+          "observations": 23
+        },
+        "24": {
+          "previousMin": 359,
+          "percentBelow": 0,
+          "observations": 44
+        }
+      }
+    },
+    {
+      "name": "Costum elfita ajutorul mosului",
+      "price": 131.9,
+      "observedDate": "2026-11-09",
+      "url": "https://xprice.ro/istoric-pret/costum-elfita-ajutorul-mosului/pd/b7d478598719d30932262a3e07c80551/?hist=730",
+      "records": {
+        "6": {
+          "previousMin": 131.9,
+          "percentBelow": 0,
+          "observations": 14
+        },
+        "12": {
+          "previousMin": 131.9,
+          "percentBelow": 0,
+          "observations": 26
+        },
+        "24": {
+          "previousMin": 129.9,
+          "percentBelow": -1.539645881447267,
+          "observations": 48
+        }
+      }
+    },
+    {
+      "name": "Set de copt, 19 piese, Wader",
+      "price": 60.91,
+      "observedDate": "2026-11-09",
+      "url": "https://xprice.ro/istoric-pret/set-de-copt-19-piese-wader/pd/caeac826a31a44576785582deb73f727/?hist=730",
+      "records": {
+        "6": {
+          "previousMin": 60.91,
+          "percentBelow": 0,
+          "observations": 12
+        },
+        "12": {
+          "previousMin": 59.69,
+          "percentBelow": -2.0438934494890266,
+          "observations": 24
+        },
+        "24": {
+          "previousMin": 59.69,
+          "percentBelow": -2.0438934494890266,
+          "observations": 46
+        }
+      }
+    },
+    {
+      "name": "Placa inot gonflabila Saica Spiderman",
+      "price": 21,
+      "observedDate": "2026-11-09",
+      "url": "https://xprice.ro/istoric-pret/placa-inot-gonflabila-saica-spiderman/pd/04f5c05f1e824676af6929b277e99a22/?hist=730",
+      "records": {
+        "6": {
+          "previousMin": 21,
+          "percentBelow": 0,
+          "observations": 14
+        },
+        "12": {
+          "previousMin": 21,
+          "percentBelow": 0,
+          "observations": 30
+        },
+        "24": {
+          "previousMin": 21,
+          "percentBelow": 0,
+          "observations": 55
+        }
+      }
+    },
+    {
+      "name": "Pensula pentru gel cu maner metalic rotund -NB103-8",
+      "price": 15.25,
+      "observedDate": "2026-11-06",
+      "url": "https://xprice.ro/istoric-pret/pensula-pentru-gel-cu-maner-metalic-rotund-nb103-8/pd/dcc6ed609a63742c144479571b47457d/?hist=730",
+      "records": {
+        "6": {
+          "previousMin": 15.25,
+          "percentBelow": 0,
+          "observations": 11
+        },
+        "12": {
+          "previousMin": 15.25,
+          "percentBelow": 0,
+          "observations": 23
+        },
+        "24": {
+          "previousMin": 15,
+          "percentBelow": -1.6666666666666667,
+          "observations": 44
+        }
+      }
+    },
+    {
+      "name": "Coș de gunoi Curver Deco, 28 l",
+      "price": 243.94,
+      "observedDate": "2026-11-07",
+      "url": "https://xprice.ro/istoric-pret/cos-de-gunoi-curver-deco-28-l/pd/0ab327fa2b1a89137234002664eb5c61/?hist=730",
+      "records": {
+        "6": {
+          "previousMin": 236.52,
+          "percentBelow": -3.1371554202604433,
+          "observations": 33
+        },
+        "12": {
+          "previousMin": 200,
+          "percentBelow": -21.97,
+          "observations": 60
+        },
+        "24": {
+          "previousMin": 180,
+          "percentBelow": -35.522222222222226,
+          "observations": 89
+        }
+      }
+    },
+    {
+      "name": "Strecurătoare din metal Prescott – Premier Housewares",
+      "price": 93.5,
+      "observedDate": "2026-11-07",
+      "url": "https://xprice.ro/istoric-pret/strecuratoare-din-metal-prescott-premier-housewares/pd/85d43a93f42b538c56e891c1e3e9658b/?hist=730",
+      "records": {
+        "6": {
+          "previousMin": 88,
+          "percentBelow": -6.25,
+          "observations": 31
+        },
+        "12": {
+          "previousMin": 88,
+          "percentBelow": -6.25,
+          "observations": 65
+        },
+        "24": {
+          "previousMin": 86,
+          "percentBelow": -8.720930232558139,
+          "observations": 112
+        }
+      }
+    },
+    {
+      "name": "Sfeșnic din ceramică Kähler Design Urbania Lighthouse High Building, alb",
+      "price": 192.1,
+      "observedDate": "2026-11-08",
+      "url": "https://xprice.ro/istoric-pret/sfesnic-din-ceramica-kahler-design-urbania-lighthouse-high-building-alb/pd/ff8b308e70e20fe4534454178b9f0e66/?hist=730",
+      "records": {
+        "6": {
+          "previousMin": 180.8,
+          "percentBelow": -6.25,
+          "observations": 30
+        },
+        "12": {
+          "previousMin": 151,
+          "percentBelow": -27.218543046357617,
+          "observations": 64
+        },
+        "24": {
+          "previousMin": 151,
+          "percentBelow": -27.218543046357617,
+          "observations": 110
+        }
+      }
+    },
+    {
+      "name": "Puf Quadro Paolo lung roz",
+      "price": 947.58,
+      "observedDate": "2026-11-09",
+      "url": "https://xprice.ro/istoric-pret/puf-quadro-paolo-lung-roz/pd/8d5735705120b61750ab98e330195665/?hist=730",
+      "records": {
+        "6": {
+          "previousMin": 869.15,
+          "percentBelow": -9.023758844848414,
+          "observations": 18
+        },
+        "12": {
+          "previousMin": 850.86,
+          "percentBelow": -11.36732247373246,
+          "observations": 31
+        },
+        "24": {
+          "previousMin": 836.91,
+          "percentBelow": -13.223644119439367,
+          "observations": 68
+        }
+      }
+    },
+    {
+      "name": "Scaun de dining negru/gri antracit Curious – UMAGE",
+      "price": 1223,
+      "observedDate": "2026-11-07",
+      "url": "https://xprice.ro/istoric-pret/scaun-de-dining-negrugri-antracit-curious-umage/pd/f7a290476c4e6ebd20069f4581652eba/?hist=730",
+      "records": {
+        "6": {
+          "previousMin": 1064,
+          "percentBelow": -14.943609022556391,
+          "observations": 30
+        },
+        "12": {
+          "previousMin": 918,
+          "percentBelow": -33.22440087145969,
+          "observations": 46
+        },
+        "24": {
+          "previousMin": 918,
+          "percentBelow": -33.22440087145969,
+          "observations": 83
+        }
+      }
+    },
+    {
+      "name": "Carucior transformabil 3 in 1 KikkaBoo Alba Pink",
+      "price": 1087,
+      "observedDate": "2026-11-09",
+      "url": "https://xprice.ro/istoric-pret/carucior-transformabil-3-in-1-kikkaboo-alba-pink/pd/07978477eed8a5f6672e205ee7a89174/?hist=730",
+      "records": {
+        "6": {
+          "previousMin": 899,
+          "percentBelow": -20.912124582869854,
+          "observations": 41
+        },
+        "12": {
+          "previousMin": 899,
+          "percentBelow": -20.912124582869854,
+          "observations": 66
+        },
+        "24": {
+          "previousMin": 899,
+          "percentBelow": -20.912124582869854,
+          "observations": 88
+        }
+      }
+    },
+    {
+      "name": "Hartie color A4 Rainbow 80 g/mp 500 coli/top albastru intens pret per top",
+      "price": 88.94,
+      "observedDate": "2026-11-09",
+      "url": "https://xprice.ro/istoric-pret/hartie-color-a4-rainbow-80-gmp-500-colitop-albastru-intens-pret-per-top-hartie-color-a4-rainbow-80-gmp-500-colitop-albastru-intens-pret-per-top/pd/56c08cb069a2faa8d6acc09d689a52df/?hist=730",
+      "records": {
+        "6": {
+          "previousMin": 73.5,
+          "percentBelow": -21.006802721088434,
+          "observations": 14
+        },
+        "12": {
+          "previousMin": 73.5,
+          "percentBelow": -21.006802721088434,
+          "observations": 14
+        },
+        "24": {
+          "previousMin": 73.5,
+          "percentBelow": -21.006802721088434,
+          "observations": 14
+        }
+      }
+    },
+    {
+      "name": "Caiet de birou Leitz WOW A5 coperta dura 80 file dictando",
+      "price": 52.28,
+      "observedDate": "2026-11-09",
+      "url": "https://xprice.ro/istoric-pret/caiet-de-birou-leitz-wow-a5-coperta-dura-80-file-dictando-caiet-de-birou-leitz-wow-a5-coperta-dura-80-file-dictando-negru/pd/bbb3c18ca103098b6f01a7a85c49c3af/?hist=730",
+      "records": {
+        "6": {
+          "previousMin": 41.83,
+          "percentBelow": -24.98207028448482,
+          "observations": 20
+        },
+        "12": {
+          "previousMin": 41.83,
+          "percentBelow": -24.98207028448482,
+          "observations": 20
+        },
+        "24": {
+          "previousMin": 41.83,
+          "percentBelow": -24.98207028448482,
+          "observations": 20
+        }
+      }
+    },
+    {
+      "name": "Ceai Tulsi Masala Ecologic/Bio 25dz",
+      "price": 37.08,
+      "observedDate": "2026-11-09",
+      "url": "https://xprice.ro/istoric-pret/ceai-tulsi-masala-ecologicbio-25dz/pd/e380348f7610cf2fdae07aecbde1d9d1/?hist=730",
+      "records": {
+        "6": {
+          "previousMin": 29.66,
+          "percentBelow": -25.016857720836143,
+          "observations": 15
+        },
+        "12": {
+          "previousMin": 29.66,
+          "percentBelow": -25.016857720836143,
+          "observations": 26
+        },
+        "24": {
+          "previousMin": 25.43,
+          "percentBelow": -45.812033031852145,
+          "observations": 52
+        }
+      }
+    },
+    {
+      "name": "Recipient spray ombre",
+      "price": 13.5,
+      "observedDate": "2026-11-09",
+      "url": "https://xprice.ro/istoric-pret/recipient-spray-ombre/pd/5fbfea49780c17a1ab1ef554f0b248cf/?hist=730",
+      "records": {
+        "6": {
+          "previousMin": 10.5,
+          "percentBelow": -28.571428571428573,
+          "observations": 20
+        },
+        "12": {
+          "previousMin": 9,
+          "percentBelow": -50,
+          "observations": 40
+        },
+        "24": {
+          "previousMin": 9,
+          "percentBelow": -50,
+          "observations": 66
+        }
+      }
+    }
+  ]
 }
