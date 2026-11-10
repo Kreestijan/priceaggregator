@@ -73,7 +73,10 @@ function showRecords(rows) {
 
 async function init() {
   try {
-    const response = await fetch('./xprice-records.json', {cache:'no-cache'});
+    let response = await fetch('./xprice-records.json', {cache:'no-cache'});
+    if (response.status === 404) {
+      response = await fetch('https://raw.githubusercontent.com/Kreestijan/priceaggregator/main/xprice-records.json', {cache:'no-cache'});
+    }
     if (!response.ok) throw new Error('Date indisponibile');
     const snapshot = await response.json();
     if (!Array.isArray(snapshot.records) || typeof snapshot.date !== 'string') throw new Error('Date invalide');
